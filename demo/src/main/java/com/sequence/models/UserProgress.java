@@ -1,16 +1,36 @@
 package com.sequence.models;
 
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 
-public class UserProgress {
-    public int userId;
-    public int nodeId;
-    public Timestamp timestamp;
-    public String status;
 
-    public UserProgress(int userId, int nodeId, Timestamp timestamp, String status) {
-        this.userId = userId;
-        this.nodeId = nodeId;
+@Entity
+public class UserProgress  {
+
+
+    @EmbeddedId
+    private UserProgressId id;
+
+    @ManyToOne
+    //map this field to userId inside the embedded id
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    private Users users;
+
+    @ManyToOne
+    //same deal ^ map nodeId
+    @MapsId("nodeId")
+    @JoinColumn(name = "node_id")
+    private Node node;
+
+
+    private Timestamp timestamp;
+    private String status;
+
+    public UserProgress(Users users, Node node, Timestamp timestamp, String status) {
+        this.users = users;
+        this.node = node;
         this.timestamp = timestamp;
         this.status = status;
     }
@@ -18,20 +38,28 @@ public class UserProgress {
     public UserProgress(){}
 
 
-    public int getUserId() {
-        return userId;
+    public UserProgressId getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(UserProgressId id) {
+        this.id = id;
     }
 
-    public int getNodeId() {
-        return nodeId;
+    public Users getUser() {
+        return users;
     }
 
-    public void setNodeId(int nodeId) {
-        this.nodeId = nodeId;
+    public void setUser(Users users) {
+        this.users = users;
+    }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
     }
 
     public Timestamp getTimestamp() {

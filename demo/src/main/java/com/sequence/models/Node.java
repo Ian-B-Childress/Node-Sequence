@@ -1,15 +1,26 @@
 package com.sequence.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Node {
 
-    public int nodeId;
-    public String nodeCode;
-    public String nodeType;
-    public String nodeContent;
-    public String nodeStatus;
 
 
-    public Node(int nodeId, String nodeCode, String nodeType, String nodeContent, String nodeStatus) {
+    //using Integer cause I know this wont surpass even a few hundred
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer nodeId;
+    private String nodeCode;
+    private String nodeType;
+    private String nodeContent;
+    private String nodeStatus;
+
+
+    public Node(Integer nodeId, String nodeCode, String nodeType, String nodeContent, String nodeStatus) {
         this.nodeId = nodeId;
         this.nodeCode = nodeCode;
         this.nodeType = nodeType;
@@ -19,11 +30,11 @@ public class Node {
 
     public Node(){}
 
-    public int getNodeId() {
+    public Integer getNodeId() {
         return nodeId;
     }
 
-    public void setNodeId(int nodeId) {
+    public void setNodeId(Integer nodeId) {
         this.nodeId = nodeId;
     }
 
