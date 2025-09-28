@@ -12,61 +12,57 @@ public class Node {
 
     //using Integer cause I know this wont surpass even a few hundred
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer nodeId;
-    private String nodeCode;
-    private String nodeType;
-    private String nodeContent;
-    private String nodeStatus;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String code;
+    private String type;
+    private String content;
+    private String status;
 
 
-    public Node(Integer nodeId, String nodeCode, String nodeType, String nodeContent, String nodeStatus) {
-        this.nodeId = nodeId;
-        this.nodeCode = nodeCode;
-        this.nodeType = nodeType;
-        this.nodeContent = nodeContent;
-        this.nodeStatus = nodeStatus;
+    public Node(Integer id, String code, String type, String content, String status) {
+        this.id = id;
+        this.code = code;
+        this.type = type;
+        this.content = content;
+        this.status = status;
     }
 
     public Node(){}
 
-    public Integer getNodeId() {
-        return nodeId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setNodeId(Integer nodeId) {
-        this.nodeId = nodeId;
+    public String getCode() {
+        return code;
     }
 
-    public String getNodeCode() {
-        return nodeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public void setNodeCode(String nodeCode) {
-        this.nodeCode = nodeCode;
+    public String getType() {
+        return type;
     }
 
-    public String getNodeType() {
-        return nodeType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setNodeType(String nodeType) {
-        this.nodeType = nodeType;
+    public String getContent() {
+        return content;
     }
 
-    public String getNodeContent() {
-        return nodeContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public void setNodeContent(String nodeContent) {
-        this.nodeContent = nodeContent;
+    public String getStatus() {
+        return status;
     }
 
-    public String getNodeStatus() {
-        return nodeStatus;
-    }
-
-    public void setNodeStatus(String nodeStatus) {
-        this.nodeStatus = nodeStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

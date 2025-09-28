@@ -23,12 +23,12 @@ public class Application {
 	CommandLineRunner runner(NodeRepository repository){
 		return args -> {
 			Node node = new Node();
-			node.setNodeCode("rbgb");
-			node.setNodeContent("Congrats! You've found the first room.");
-			node.setNodeType("text");
+			node.setCode("rbgb");
+			node.setContent("Congrats! You've found the first room.");
+			node.setType("text");
 
 			repository.save(node);
-			Optional<Node> saved = repository.findByNodeId(node.getNodeId());
+			Optional<Node> saved = repository.findById(node.getId());
 		};
 	}
 }

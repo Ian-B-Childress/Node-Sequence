@@ -1,0 +1,6 @@
+BEGIN TRANSACTION;
+
+INSERT INTO users (username) VALUES ('JohnDoe');
+
+
+COMMIT TRANSACTION;
