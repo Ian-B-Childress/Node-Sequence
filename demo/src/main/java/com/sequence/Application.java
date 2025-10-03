@@ -2,33 +2,42 @@ package com.sequence;
 
 import com.sequence.models.Node;
 import com.sequence.repository.NodeRepository;
+import com.sequence.service.NodeService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Optional;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+
+		NodeService nodeService = context.getBean(NodeService.class);
 	}
 
 
 
-	//little demo from da documents
 	@Bean
-	CommandLineRunner runner(NodeRepository repository){
+	CommandLineRunner runner(NodeService nodeService){
 		return args -> {
-			Node node = new Node();
-			node.setCode("rbgb");
-			node.setContent("Congrats! You've found the first room.");
-			node.setType("text");
+			Scanner scanner = new Scanner(System.in);
 
-			repository.save(node);
-			Optional<Node> saved = repository.findById(node.getId());
+			while(true){
+				System.out.println("Choose action: [1] Create Node, [2] List Nodes, [3] Exit");
+				String choice = scanner.nextLine();
+
+				
+
+			}
+
 		};
 	}
+
+
 }
