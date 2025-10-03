@@ -18,7 +18,6 @@ public class Application {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 
-		NodeService nodeService = context.getBean(NodeService.class);
 	}
 
 
@@ -32,7 +31,36 @@ public class Application {
 				System.out.println("Choose action: [1] Create Node, [2] List Nodes, [3] Exit");
 				String choice = scanner.nextLine();
 
-				
+				switch (choice){
+					case "1":
+						Node newNode = new Node();
+
+						System.out.println("Enter code: ");
+						newNode.setCode(scanner.nextLine());
+
+						System.out.println("Enter content: ");
+						newNode.setContent(scanner.nextLine());
+
+						System.out.println("Enter content type (text, url, etc..): ");
+						newNode.setType(scanner.nextLine());
+
+
+						nodeService.saveNode(newNode);
+						System.out.println("Node saved with id: " + nodeService.getNodeById(newNode.getId()));
+						break;
+
+					case "2":
+						System.out.println("All current nodes: ");
+						nodeService.getAllNodes().forEach(System.out::println);
+						break;
+
+					case "3":
+						System.out.println("Exiting cli");
+						return;
+
+					default:
+						System.out.println("invalid option");
+				}
 
 			}
 

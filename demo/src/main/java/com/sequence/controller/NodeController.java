@@ -25,14 +25,14 @@ public class NodeController {
     @GetMapping()
     public List<Node> getAllNodes(){return nodeRepository.findAll();}
 
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping()
-    public ResponseEntity<Node> addNewNode(@RequestBody Node node){
-        if(node == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        try{
-
-        }
-    }
+//    @ResponseStatus(HttpStatus.OK)
+//    @PostMapping()
+//    public ResponseEntity<Node> addNewNode(@RequestBody Node node){
+//        if(node == null){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        }
+////        try{
+////
+////        }
+//    }
 }
