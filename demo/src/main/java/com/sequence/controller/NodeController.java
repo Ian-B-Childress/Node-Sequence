@@ -25,6 +25,8 @@ public class NodeController {
     @GetMapping()
     public List<Node> getAllNodes(){return nodeRepository.findAll();}
 
+
+    //TODO: finish post
 //    @ResponseStatus(HttpStatus.OK)
 //    @PostMapping()
 //    public ResponseEntity<Node> addNewNode(@RequestBody Node node){
