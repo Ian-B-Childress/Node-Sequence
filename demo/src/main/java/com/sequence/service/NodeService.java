@@ -35,4 +35,6 @@ public class NodeService {
         nodeRepository.deleteById(id);
     }
 
+    public Optional<Node> findByCode(String code){return nodeRepository.findByCode(code);}
+
 }
