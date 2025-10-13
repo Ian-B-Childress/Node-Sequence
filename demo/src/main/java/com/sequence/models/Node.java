@@ -65,4 +65,10 @@ public class Node {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString(){
+        return "Node: id= " + id + ", code= " + code + ", type= " + type + ", content= " + content + ", status= " + status;
+    }
+
 }
