@@ -28,7 +28,7 @@ public class Application {
 			Scanner scanner = new Scanner(System.in);
 
 			while(true){
-				System.out.println("Choose action: [1] Create Node, [2] List Nodes, [3] Exit");
+				System.out.println("Choose action: [1] Create Node, [2] List Nodes, [3] Exit, [4] Search For Node By Code");
 				String choice = scanner.nextLine();
 
 				switch (choice){
@@ -55,8 +55,11 @@ public class Application {
 						break;
 
 					case "3":
-						System.out.println("Exiting cli");
+						System.out.println("Enter Code: ");
+						nodeService.findByCode(scanner.nextLine());
+
 						return;
+
 
 					default:
 						System.out.println("invalid option");

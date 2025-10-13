@@ -28,8 +28,6 @@ public class NodeController {
     public List<Node> getAllNodes(){return nodeRepository.findAll();}
 
 
-    //TODO: finish post
-
     @PostMapping("/nodes")
     public ResponseEntity<Node> addNewNode(@RequestBody Node node){
         if(node == null){
