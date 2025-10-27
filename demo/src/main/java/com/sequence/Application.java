@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Bean;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -77,6 +80,59 @@ public class Application {
 		searchPanel.add(searchButton);
 		panel.add(searchPanel);
 
+
+		//keypad
+		JPanel keypadPanel = new JPanel(new GridLayout(4,3,5,5));
+
+		//collection for numbers
+		//order is 3,2,1,4,5,6,9,8,7,0
+		List<Integer> keypadValue = new ArrayList<>();
+		keypadValue.add(3);
+		keypadValue.add(2);
+		keypadValue.add(1);
+		keypadValue.add(4);
+		keypadValue.add(5);
+		keypadValue.add(6);
+		keypadValue.add(9);
+		keypadValue.add(8);
+		keypadValue.add(7);
+		keypadValue.add(0);
+
+		//creates 12 blank buttons
+		for(int i = 0; i < 9; i++){
+			JButton b = new JButton("");
+			b.setBackground(Color.DARK_GRAY);
+			b.setForeground(Color.white);
+			b.putClientProperty("keypadValue", keypadValue.get(i));
+			keypadPanel.add(b);
+
+			b.addActionListener(e -> {
+				int val = (int) b.getClientProperty("keypadValue");
+				searchField.setText(searchField.getText() + val);
+			});
+		}
+		keypadPanel.add(new JLabel("")); //left space
+		JButton zeroButton = new JButton("");
+		zeroButton.setForeground(Color.WHITE);
+		zeroButton.setBackground(Color.DARK_GRAY);
+		zeroButton.putClientProperty("keypadValue", keypadValue.get(9));
+		keypadPanel.add(zeroButton);
+
+		zeroButton.addActionListener( e -> {
+			int val = (int) zeroButton.getClientProperty("keypadValue");
+			searchField.setText(searchField.getText() + val);
+		});
+
+		JButton enterButton = new JButton("ENTER");
+		enterButton.setBackground(Color.DARK_GRAY);
+		enterButton.setForeground(Color.white);
+		keypadPanel.add(enterButton); //right space
+
+
+
+		panel.add(keypadPanel);
+
+
 		//output area
 		JTextArea outputArea = new JTextArea(15, 60);
 		outputArea.setEditable(false);
@@ -89,7 +145,7 @@ public class Application {
 			Node node = new Node();
 			node.setCode(codeField.getText());
 			node.setContent(contentField.getText());
-			node.setType(typeLabel.getText());
+			node.setType(typeField.getText());
 			nodeService.saveNode(node);
 			outputArea.append("Saved Node: " + node + "\n");
 			codeField.setText("");
@@ -112,6 +168,36 @@ public class Application {
 							//if not found, returns not found + code inputted
 					//glorified switch case
 							() -> outputArea.setText("No node with code: " + code + "\n"));
+		});
+
+		//keypad search
+		enterButton.addActionListener(e -> {
+			String code = searchField.getText();
+			nodeService.findByCode(code).ifPresentOrElse(
+					//if it exists, sets output area to the found nodes content
+					n -> outputArea.setText("Found Node:\n" + n + "\n"),
+					//if not found, returns not found + code inputted
+					//glorified switch case
+					() -> outputArea.setText("No node with code: " + code + "\n"));
+		});
+
+		//enter key triggers search
+
+		searchField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "searchAction");
+
+		searchField.getActionMap().put("searchAction", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String code = searchField.getText();
+				nodeService.findByCode(code).ifPresentOrElse(
+						//if it exists, sets output area to the found nodes content
+						n -> outputArea.setText("Found Node:\n" + n + "\n"),
+						//if not found, returns not found + code inputted
+						//glorified switch case
+						() -> outputArea.setText("No node with code: " + code + "\n"));
+				//clear
+				searchField.setText("");
+			}
 		});
 
 		frame.setVisible(true);
