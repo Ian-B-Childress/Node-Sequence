@@ -124,7 +124,7 @@ public class Application {
 		});
 
 		JButton enterButton = new JButton("ENTER");
-		enterButton.setBackground(Color.DARK_GRAY);
+		enterButton.setBackground(Color.BLACK);
 		enterButton.setForeground(Color.white);
 		keypadPanel.add(enterButton); //right space
 
