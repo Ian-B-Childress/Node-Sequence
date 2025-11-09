@@ -21,5 +21,17 @@ public class SearchPanel extends JPanel {
                     () -> JOptionPane.showMessageDialog(this, "No node can be found with code:\n" + code)
             );
         });
+        KeypadPanel keypad = new KeypadPanel(
+                val -> searchField.setText(searchField.getText() + val),
+                searchButton::doClick //triggers upon enter button
+        );
+        add(keypad);
+    }
+    public void appendToSearchField(String text) {
+        searchField.setText(searchField.getText() + text);
+    }
+
+    public void triggerSearch() {
+        searchButton.doClick();
     }
 }
