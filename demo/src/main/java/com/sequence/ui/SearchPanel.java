@@ -22,11 +22,14 @@ public class SearchPanel extends JPanel {
                     n -> outputPanel.appendText("Found Node:\n" + n),
                     () -> JOptionPane.showMessageDialog(this, "No node can be found with code:\n" + code)
             );
+            searchField.setText("");
         });
         KeypadPanel keypad = new KeypadPanel(
                 val -> searchField.setText(searchField.getText() + val),
-                searchButton::doClick //triggers upon enter button
+                searchButton::doClick, //triggers upon enter button
+                () -> searchField.setText("")
         );
+
         add(keypad);
     }
 

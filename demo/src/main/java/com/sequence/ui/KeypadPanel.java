@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 public class KeypadPanel extends JPanel {
 
-    public KeypadPanel(Consumer<Integer> onNumberPressed, Runnable onEnterPressed) {
+    public KeypadPanel(Consumer<Integer> onNumberPressed, Runnable onEnterPressed, Runnable onClearClick) {
         setLayout(new GridLayout(4, 3, 5, 5));
 
         // 3,2,1,4,5,6,9,8,7,0
@@ -17,18 +17,23 @@ public class KeypadPanel extends JPanel {
 
         for (int i = 0; i < 9; i++) {
             int val = keypadValues.get(i);
-            JButton b = new JButton(String.valueOf(val));
+            JButton b = new JButton("");
             b.setBackground(Color.DARK_GRAY);
             b.setForeground(Color.WHITE);
             b.addActionListener(e -> onNumberPressed.accept(val));
             add(b);
         }
 
-        //blank placeholder (bottom left)
-        add(new JLabel(""));
+
+        //clear button
+        JButton clearButton = new JButton("CLEAR");
+        clearButton.setBackground(Color.black);
+        clearButton.setForeground(Color.WHITE);
+        clearButton.addActionListener(e -> onClearClick.run());
+        add(clearButton);
 
         //0 button
-        JButton zeroButton = new JButton(String.valueOf(keypadValues.get(9)));
+        JButton zeroButton = new JButton("");
         zeroButton.setBackground(Color.DARK_GRAY);
         zeroButton.setForeground(Color.WHITE);
         zeroButton.addActionListener(e -> onNumberPressed.accept(keypadValues.get(9)));
@@ -40,5 +45,8 @@ public class KeypadPanel extends JPanel {
         enterButton.setForeground(Color.WHITE);
         enterButton.addActionListener(e -> onEnterPressed.run());
         add(enterButton);
+
+
+
     }
 }
