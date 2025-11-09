@@ -27,10 +27,22 @@ public class CreatePanel extends JPanel {
         add(createButton);
 
         createButton.addActionListener(e -> {
+            String code = codeField.getText().trim();
+            String content = contentField.getText().trim();
+            String type = typeField.getText().trim();
+
+            if(code.isEmpty() || content.isEmpty() || type.isEmpty()){
+                JOptionPane.showMessageDialog(
+                        this, "All fields (Code, Content, and Type) are required.",
+                        "Missing Fields",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
             Node node = new Node();
-            node.setCode(codeField.getText());
-            node.setContent(contentField.getText());
-            node.setType(typeField.getText());
+            node.setCode(code);
+            node.setContent(content);
+            node.setType(type);
             nodeService.saveNode(node);
 
             JOptionPane.showMessageDialog(this, "Saved Node: " + node);

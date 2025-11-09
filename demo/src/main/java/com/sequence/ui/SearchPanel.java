@@ -8,8 +8,10 @@ import java.awt.*;
 public class SearchPanel extends JPanel {
     private final JTextField searchField = new JTextField(15);
     private final JButton searchButton = new JButton("Search by code");
+    private final OutputPanel outputPanel;
 
-    public SearchPanel(NodeService nodeService){
+    public SearchPanel(NodeService nodeService, OutputPanel outputPanel){
+        this.outputPanel = outputPanel;
         setLayout(new FlowLayout());
         add(searchField);
         add(searchButton);
@@ -17,7 +19,7 @@ public class SearchPanel extends JPanel {
         searchButton.addActionListener(e ->{
             String code = searchField.getText();
             nodeService.findByCode(code).ifPresentOrElse(
-                    n -> JOptionPane.showMessageDialog(this, "Found Node:\n" + n),
+                    n -> outputPanel.appendText("Found Node:\n" + n),
                     () -> JOptionPane.showMessageDialog(this, "No node can be found with code:\n" + code)
             );
         });
@@ -27,11 +29,5 @@ public class SearchPanel extends JPanel {
         );
         add(keypad);
     }
-    public void appendToSearchField(String text) {
-        searchField.setText(searchField.getText() + text);
-    }
 
-    public void triggerSearch() {
-        searchButton.doClick();
-    }
 }

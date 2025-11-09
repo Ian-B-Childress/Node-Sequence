@@ -10,8 +10,10 @@ public class MainWindow extends JFrame {
 
     public MainWindow(NodeService nodeService) {
         this.nodeService = nodeService;
-        this.searchPanel = new SearchPanel(nodeService);
 
+        OutputPanel outputPanel = new OutputPanel();
+        this.searchPanel = new SearchPanel(nodeService, outputPanel);
+        
         setupFrame();
         setupLayout();
     }
@@ -33,10 +35,14 @@ public class MainWindow extends JFrame {
         mainPanel.add(titleLabel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        //single output
+        OutputPanel outputPanel = new OutputPanel();
+
         //add panels
         mainPanel.add(new CreatePanel(nodeService));
-        mainPanel.add(searchPanel);
-        mainPanel.add(new OutputPanel());
+        mainPanel.add(new SearchPanel(nodeService, outputPanel));
+        mainPanel.add(outputPanel);
+
 
     }
 }
