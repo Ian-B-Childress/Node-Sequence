@@ -20,7 +20,12 @@ public class CreatePanel extends JPanel {
         JTextField typeField = new JTextField(10);
         JButton createButton = new JButton("Create Node");
 
-
+        add(codeLabel);
+        add(codeField);
+        add(contentLabel);
+        add(contentField);
+        add(typeLabel);
+        add(typeField);
         add(createButton);
 
 
@@ -34,13 +39,12 @@ public class CreatePanel extends JPanel {
         createButton.addActionListener(e -> {
 
             //TODO: get labels to pop up after i either A: click 'create node' or B: after i hit enter on keypad
-            add(codeLabel);
-            add(codeField);
-            add(contentLabel);
-            add(contentField);
-            add(typeLabel);
-            add(typeField);
-
+            //            add(codeLabel);
+            //            add(codeField);
+            //            add(contentLabel);
+            //            add(contentField);
+            //            add(typeLabel);
+            //            add(typeField);
 
             String code = codeField.getText().trim();
             String content = contentField.getText().trim();
