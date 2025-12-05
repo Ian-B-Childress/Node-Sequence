@@ -14,11 +14,12 @@ public class KeypadPanel extends JPanel {
 
         // 3,2,1,4,5,6,9,8,7,0
         List<Integer> keypadValues = new ArrayList<>(List.of(3, 2, 1, 4, 5, 6, 9, 8, 7, 0));
+        List<Color> keypadColors = new ArrayList<>(List.of(Color.orange, Color.red, Color.black, Color.pink, Color.GREEN, Color.YELLOW, Color.blue, Color.orange, Color.red, Color.black));
 
         for (int i = 0; i < 9; i++) {
             int val = keypadValues.get(i);
             JButton b = new JButton("");
-            b.setBackground(Color.DARK_GRAY);
+            b.setBackground(keypadColors.get(i));
             b.setForeground(Color.WHITE);
             b.addActionListener(e -> onNumberPressed.accept(val));
             add(b);
