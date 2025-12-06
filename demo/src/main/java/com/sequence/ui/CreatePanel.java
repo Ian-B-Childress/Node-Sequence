@@ -10,17 +10,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CreatePanel extends JPanel {
     private boolean formOpen = false;
     private boolean revealCode = false;
-    public CreatePanel(NodeService nodeService){
+
+    public CreatePanel(NodeService nodeService) {
+
+        //form panel
+        JPanel formPanel = new JPanel(new FlowLayout());
+        formPanel.setVisible(false);
 
 
-        setLayout(new FlowLayout());
-
+        //buttons
         JButton showCode = new JButton("Reveal Node Code");
         JButton createButton = new JButton("Create Node");
         JButton newNodeButton = new JButton("Create New Node");
 
-
-
+        //fields/labels
         add(createButton);
         JLabel codeLabel = new JLabel("Code:");
         JPasswordField codeField = new JPasswordField(10);
@@ -29,71 +32,84 @@ public class CreatePanel extends JPanel {
         JLabel typeLabel = new JLabel("Type:");
         JTextField typeField = new JTextField(10);
 
+        //adding all elements to form panel
+        formPanel.add(codeLabel);
+        formPanel.add(codeField);
+        codeField.setEditable(false);
+        formPanel.add(contentLabel);
+        formPanel.add(contentField);
+        formPanel.add(typeLabel);
+        formPanel.add(typeField);
+
+        formPanel.add(newNodeButton);
+        formPanel.add(showCode);
+        add(formPanel);
+
+        //keypad functions
+        Runnable submitForm = () -> {
+            System.out.println("Submitting: " + codeField.getPassword());
+        };
+
+        KeypadPanel keypad = new KeypadPanel(
+                val -> codeField.setText(new String(codeField.getPassword()) + val),
+                submitForm,
+                () -> codeField.setText("")
+        );
+        //unhide password
         showCode.addActionListener(e -> {
-           revealCode = true;
+            revealCode = !revealCode;
+            codeField.setEchoChar(revealCode ? (char) 0 : '*');
         });
 
+        //first event listener
         createButton.addActionListener(e -> {
 
-            if(formOpen){return;}
+            if (formOpen) {
+                return;
+            }
             formOpen = true;
 
-            Runnable submitForm = () -> {
-                System.out.println("Submitting: " + codeField.getPassword());
-            };
+            formPanel.add(keypad);
 
-            KeypadPanel keypad = new KeypadPanel(
-                    val -> codeField.setText(new String(codeField.getPassword()) + val),
-                    submitForm,
-                    () -> codeField.setText("")
-            );
+            formPanel.setVisible(true);
+            showCode.setVisible(false);
 
-            //TODO: get labels to pop up after i either A: click 'create node' or B: after i hit enter on keypad
-                        add(codeLabel);
-                        add(codeField);
-                        codeField.setEditable(false);
-                        if(revealCode){
-                            codeField.setEchoChar((char) 0);
-                        }
-                        add(contentLabel);
-                        add(contentField);
-                        add(typeLabel);
-                        add(typeField);
-                        add(keypad);
-                        add(newNodeButton);
-                        add(showCode);
-                        showCode.setVisible(true);
-                        revalidate();
-                        repaint();
+
+            revalidate();
+            repaint();
 
 
         });
-                newNodeButton.addActionListener(e -> {
-                    String code = new String(codeField.getPassword());
-                    String content = contentField.getText().trim();
-                    String type = typeField.getText().trim();
 
-                    if(code.isEmpty() || content.isEmpty() || type.isEmpty()){
-                        JOptionPane.showMessageDialog(this, "All fields must be populated.");
-                        codeField.setText("");
-                        contentField.setText("");
-                        typeField.setText("");
+        //final create listener
+        newNodeButton.addActionListener(e -> {
+            String code = new String(codeField.getPassword());
+            String content = contentField.getText().trim();
+            String type = typeField.getText().trim();
 
-                        return;
-                    }
+            if (code.isEmpty() || content.isEmpty() || type.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields must be populated.");
+                codeField.setText("");
+                contentField.setText("");
+                typeField.setText("");
 
-                    Node newNode = new Node();
-                    newNode.setCode(code);
-                    newNode.setContent(content);
-                    newNode.setType(type);
-                    nodeService.saveNode(newNode);
+                return;
+            }
 
-                    JOptionPane.showMessageDialog(this, "Node successfully created.");
+            Node newNode = new Node();
+            newNode.setCode(code);
+            newNode.setContent(content);
+            newNode.setType(type);
+            nodeService.saveNode(newNode);
 
-                    codeField.setText("");
-                    contentField.setText("");
-                    typeField.setText("");
-                    formOpen = false;
-                } );
+            JOptionPane.showMessageDialog(this, "Node successfully created.");
+
+            codeField.setText("");
+            contentField.setText("");
+            typeField.setText("");
+            formPanel.setVisible(false);
+            formOpen = false;
+
+        });
     }
 }
