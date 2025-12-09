@@ -1,5 +1,6 @@
 package com.sequence.ui;
 
+import com.sequence.models.Node;
 import com.sequence.service.NodeService;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class SearchPanel extends JPanel {
     private final JButton searchButton = new JButton("Search by code");
     private final OutputPanel outputPanel;
 
+
     public SearchPanel(NodeService nodeService, OutputPanel outputPanel){
         this.outputPanel = outputPanel;
         setLayout(new FlowLayout());
@@ -20,10 +22,14 @@ public class SearchPanel extends JPanel {
         searchButton.addActionListener(e ->{
             String code = new String(searchField.getPassword());
             nodeService.findByCode(code).ifPresentOrElse(
-                    n -> outputPanel.appendText("Found Node:\n" + n),
+                    n -> {
+                        n.setStatus(true);
+                        outputPanel.appendText("Found Node:\n" + n);
+                    },
                     () -> JOptionPane.showMessageDialog(this, "No node can be found with code:\n" + code)
-            );
+        );
             searchField.setText("");
+
         });
         KeypadPanel keypad = new KeypadPanel(
                 val -> searchField.setText(new String(searchField.getPassword()) + val),

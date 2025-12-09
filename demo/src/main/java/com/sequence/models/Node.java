@@ -17,10 +17,10 @@ public class Node {
     private String code;
     private String type;
     private String content;
-    private String status;
+    private Boolean status;
 
 
-    public Node(Integer id, String code, String type, String content, String status) {
+    public Node(Integer id, String code, String type, String content, Boolean status) {
         this.id = id;
         this.code = code;
         this.type = type;
@@ -58,11 +58,11 @@ public class Node {
         this.content = content;
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

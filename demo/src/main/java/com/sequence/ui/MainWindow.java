@@ -1,19 +1,29 @@
 package com.sequence.ui;
 
+import com.sequence.models.Node;
+import com.sequence.repository.NodeRepository;
 import com.sequence.service.NodeService;
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Optional;
 
 public class MainWindow extends JFrame {
     private final NodeService nodeService;
     private final SearchPanel searchPanel;
+
+    JPanel navPanel = new JPanel();
+    JButton next = new JButton("Next Node");
+    JButton previous = new JButton("Previous Node");
 
     public MainWindow(NodeService nodeService) {
         this.nodeService = nodeService;
 
         OutputPanel outputPanel = new OutputPanel();
         this.searchPanel = new SearchPanel(nodeService, outputPanel);
-        
+
         setupFrame();
         setupLayout();
     }
@@ -38,11 +48,31 @@ public class MainWindow extends JFrame {
         //single output
         OutputPanel outputPanel = new OutputPanel();
 
+
         //add panels
         mainPanel.add(new CreatePanel(nodeService));
         mainPanel.add(new SearchPanel(nodeService, outputPanel));
         mainPanel.add(outputPanel);
 
 
+        JPanel leftWrap = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftWrap.add(previous);
+
+        JPanel rightWrap = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightWrap.add(next);
+
+        navPanel.add(leftWrap, BorderLayout.WEST);
+        navPanel.add(rightWrap, BorderLayout.EAST);
+
+        navPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+
+        mainPanel.add(navPanel);
+    }
+
+    private Optional<Node> nodeNav(Node node){
+        previous.addActionListener(e -> {
+            //TODO figure out what to do here..
+        });
+        return Optional.empty();
     }
 }
