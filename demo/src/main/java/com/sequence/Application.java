@@ -5,6 +5,7 @@ import com.sequence.models.Node;
 import com.sequence.repository.NodeRepository;
 import com.sequence.service.NodeService;
 import com.sequence.ui.MainWindow;
+import com.sequence.ui.OutputPanel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

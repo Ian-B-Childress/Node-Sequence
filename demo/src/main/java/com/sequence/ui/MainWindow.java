@@ -13,6 +13,8 @@ import java.util.Optional;
 public class MainWindow extends JFrame {
     private final NodeService nodeService;
     private final SearchPanel searchPanel;
+    private OutputPanel outputPanel;
+
 
     JPanel navPanel = new JPanel();
     JButton next = new JButton("Next Node");
@@ -20,10 +22,8 @@ public class MainWindow extends JFrame {
 
     public MainWindow(NodeService nodeService) {
         this.nodeService = nodeService;
-
-        OutputPanel outputPanel = new OutputPanel();
-        this.searchPanel = new SearchPanel(nodeService, outputPanel);
-
+        OutputPanel outputPanel1 = new OutputPanel();
+        this.searchPanel = new SearchPanel(nodeService, outputPanel1);
         setupFrame();
         setupLayout();
     }
@@ -72,6 +72,8 @@ public class MainWindow extends JFrame {
     private Optional<Node> nodeNav(Node node){
         previous.addActionListener(e -> {
             //TODO figure out what to do here..
+            Optional<Node> returnedNode = nodeService.findPrevious(node.getId());
+            outputPanel.appendText(returnedNode.toString());
         });
         return Optional.empty();
     }

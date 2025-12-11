@@ -13,9 +13,9 @@ public interface NodeRepository extends JpaRepository<Node, Integer> {
     //thanks to jpa, spring reads this as the sql statement to call the db
     Optional<Node> findByCode(String code);
 
-    Optional<Node> findByIdLessThanOrderByDesc(int id);
+    Optional<Node> findByIdLessThanOrderByIdDesc(int id);
 
-    Optional<Node> findByIdGreaterThanOrderByAsc(int id);
+    Optional<Node> findByIdGreaterThanOrderByIdAsc(int id);
 
 
 

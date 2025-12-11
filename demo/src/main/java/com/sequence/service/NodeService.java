@@ -37,8 +37,8 @@ public class NodeService {
 
     public Optional<Node> findByCode(String code){return nodeRepository.findByCode(code);}
 
-    public Optional<Node> findPrevious(int id){return nodeRepository.findByIdLessThanOrderByDesc(id);}
+    public Optional<Node> findPrevious(int id){return nodeRepository.findByIdLessThanOrderByIdDesc(id);}
 
-    public Optional<Node> findNext(int id){return nodeRepository.findByIdGreaterThanOrderByAsc(id);}
+    public Optional<Node> findNext(int id){return nodeRepository.findByIdGreaterThanOrderByIdAsc(id);}
 
 }
