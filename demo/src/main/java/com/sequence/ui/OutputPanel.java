@@ -19,4 +19,5 @@ public class OutputPanel extends JPanel {
         outputArea.setText(text);
     }
 
+
 }

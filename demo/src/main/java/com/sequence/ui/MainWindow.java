@@ -7,6 +7,7 @@ import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.text.html.Option;
 import java.awt.*;
 import java.util.Optional;
 
@@ -14,7 +15,12 @@ public class MainWindow extends JFrame {
     private final NodeService nodeService;
     private final SearchPanel searchPanel;
     private OutputPanel outputPanel;
+    private Node currentNode;
 
+
+    public void setCurrentNode(Node currentNode) {
+        this.currentNode = currentNode;
+    }
 
     JPanel navPanel = new JPanel();
     JButton next = new JButton("Next Node");
@@ -23,10 +29,11 @@ public class MainWindow extends JFrame {
     public MainWindow(NodeService nodeService) {
         this.nodeService = nodeService;
         OutputPanel outputPanel1 = new OutputPanel();
-        this.searchPanel = new SearchPanel(nodeService, outputPanel1);
+        this.searchPanel = new SearchPanel(nodeService, outputPanel1, this);
         setupFrame();
         setupLayout();
     }
+
 
     private void setupFrame() {
         setTitle("Node Sequence Window");
@@ -51,7 +58,7 @@ public class MainWindow extends JFrame {
 
         //add panels
         mainPanel.add(new CreatePanel(nodeService));
-        mainPanel.add(new SearchPanel(nodeService, outputPanel));
+        mainPanel.add(new SearchPanel(nodeService, outputPanel, this));
         mainPanel.add(outputPanel);
 
 
@@ -67,14 +74,17 @@ public class MainWindow extends JFrame {
         navPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
         mainPanel.add(navPanel);
+
+        previous.addActionListener( e -> {
+            if(currentNode == null) return;
+            outputPanel.appendText("Previous Node is: " + nodeService.findPrevious(currentNode.getId()));
+        });
+
+        next.addActionListener( e -> {
+            if(currentNode == null) return;
+            outputPanel.appendText("Next Node is: " + nodeService.findNext(currentNode.getId()));
+
+        });
     }
 
-    private Optional<Node> nodeNav(Node node){
-        previous.addActionListener(e -> {
-            //TODO figure out what to do here..
-            Optional<Node> returnedNode = nodeService.findPrevious(node.getId());
-            outputPanel.appendText(returnedNode.toString());
-        });
-        return Optional.empty();
-    }
 }

@@ -11,10 +11,12 @@ public class SearchPanel extends JPanel {
     private final JPasswordField searchField = new JPasswordField(15);
     private final JButton searchButton = new JButton("Search by code");
     private final OutputPanel outputPanel;
+    private final MainWindow parent;
 
 
-    public SearchPanel(NodeService nodeService, OutputPanel outputPanel){
+    public SearchPanel(NodeService nodeService, OutputPanel outputPanel, MainWindow parent){
         this.outputPanel = outputPanel;
+        this.parent = parent;
         setLayout(new FlowLayout());
         add(searchField);
         add(searchButton);
@@ -23,6 +25,7 @@ public class SearchPanel extends JPanel {
             String code = new String(searchField.getPassword());
             nodeService.findByCode(code).ifPresentOrElse(
                     n -> {
+                        parent.setCurrentNode(n);
                         n.setStatus(true);
                         outputPanel.appendText("Found Node:\n" + n);
                     },
@@ -38,6 +41,7 @@ public class SearchPanel extends JPanel {
         );
 
         add(keypad);
+
     }
 
 }
