@@ -16,6 +16,8 @@ public class MainWindow extends JFrame {
     private final SearchPanel searchPanel;
     private OutputPanel outputPanel;
     private Node currentNode;
+    private Node nN;
+    private Node pN;
 
 
     public void setCurrentNode(Node currentNode) {
@@ -77,12 +79,34 @@ public class MainWindow extends JFrame {
 
         previous.addActionListener( e -> {
             if(currentNode == null) return;
+            String bool = nodeService.findPrevious(currentNode.getId()).toString();
+            if(bool.equals("false") ^ bool.isBlank()){
+                JOptionPane.showMessageDialog(this, "Sorry, That Node Has Not Been Unlocked!");
+                return;
+            }
             outputPanel.appendText("Previous Node is: " + nodeService.findPrevious(currentNode.getId()));
+            currentNode.setStatus(true);
         });
 
         next.addActionListener( e -> {
             if(currentNode == null) return;
-            outputPanel.appendText("Next Node is: " + nodeService.findNext(currentNode.getId()));
+
+            Optional<Node> nextNode = nodeService.findNext(currentNode.getId());
+            try{
+                nextNode.ifPresentOrElse(
+                        node -> {
+                            nN = node;
+                            if(nN.getStatus() && nN != null){
+                                outputPanel.appendText("Next Node is: " + nextNode);
+                            }
+                        }, () -> JOptionPane.showMessageDialog(this, "Sorry! It seems there is no next node!")
+                );
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+
+
+
 
         });
     }

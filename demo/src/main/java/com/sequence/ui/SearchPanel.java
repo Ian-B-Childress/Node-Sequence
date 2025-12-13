@@ -27,6 +27,7 @@ public class SearchPanel extends JPanel {
                     n -> {
                         parent.setCurrentNode(n);
                         n.setStatus(true);
+                        nodeService.saveNode(n);
                         outputPanel.appendText("Found Node:\n" + n);
                     },
                     () -> JOptionPane.showMessageDialog(this, "No node can be found with code:\n" + code)
