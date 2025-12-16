@@ -87,6 +87,7 @@ public class CreatePanel extends JPanel {
             String content = contentField.getText().trim();
             String type = typeField.getText().trim();
 
+            
             if (code.isEmpty() || content.isEmpty() || type.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields must be populated.");
                 codeField.setText("");

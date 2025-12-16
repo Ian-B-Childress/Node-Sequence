@@ -10,7 +10,7 @@ create table users (
 
 create table node (
 	id SERIAL PRIMARY KEY,
-	code varchar(5),
+	code varchar(5) UNIQUE,
 	type varchar(15),
 	content text,
 	status varchar(20)

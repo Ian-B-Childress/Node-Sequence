@@ -79,13 +79,21 @@ public class MainWindow extends JFrame {
 
         previous.addActionListener( e -> {
             if(currentNode == null) return;
-            String bool = nodeService.findPrevious(currentNode.getId()).toString();
-            if(bool.equals("false") ^ bool.isBlank()){
-                JOptionPane.showMessageDialog(this, "Sorry, That Node Has Not Been Unlocked!");
-                return;
+            Optional<Node> previousNode = nodeService.findPrevious(currentNode.getId());
+            try{
+                previousNode.ifPresentOrElse(
+                        node -> {
+                            pN = node;
+                            if(pN.getStatus() && pN != null){
+                                outputPanel.appendText("Previous Node is: " + previousNode);
+                            } else if(!pN.getStatus()){
+                                JOptionPane.showMessageDialog(this, "You have not unlocked that node yet!");
+                            }
+                        }, () -> JOptionPane.showMessageDialog(this, "Sorry it seems there is no previous node!")
+                );
+            } catch (RuntimeException ex) {
+                throw new RuntimeException(ex);
             }
-            outputPanel.appendText("Previous Node is: " + nodeService.findPrevious(currentNode.getId()));
-            currentNode.setStatus(true);
         });
 
         next.addActionListener( e -> {
@@ -98,16 +106,14 @@ public class MainWindow extends JFrame {
                             nN = node;
                             if(nN.getStatus() && nN != null){
                                 outputPanel.appendText("Next Node is: " + nextNode);
+                            } else if(!nN.getStatus()){
+                                JOptionPane.showMessageDialog(this, "You have not unlocked that node yet!");
                             }
                         }, () -> JOptionPane.showMessageDialog(this, "Sorry! It seems there is no next node!")
                 );
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-
-
-
-
         });
     }
 
